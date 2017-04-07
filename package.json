@@ -1,0 +1,15 @@
+{
+  "name": "atp-rest",
+  "version": "1.0.0",
+  "description": "A REST api module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git.repo"
+  },
+  "author": "Andrew Wittrock",
+  "license": "MIT"
+}
