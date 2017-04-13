@@ -4,6 +4,7 @@
 
 import request from "superagent";
 import Promise from "promise";
+import {o} from "atp-sugar";
 
 import {addMessages} from "atp-flash";
 
@@ -11,7 +12,7 @@ const BASE_URL = "http://api-atp.wittrock.us/rest/1.0/";
 
 const restCall = options =>
     new Promise((resolve, reject) => {
-        return options.method.$switch({
+        return o(options.method).switch({
             get: () => request.get(BASE_URL + options.endPoint).query(options.data),
             post: () => request.post(BASE_URL + options.endPoint).send(options.data),
             put: () => request.put(BASE_URL + options.endPoint).send(options.data),
