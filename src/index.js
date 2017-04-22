@@ -8,7 +8,9 @@ import {o} from "atp-sugar";
 
 import {addMessages} from "atp-flash";
 
-const BASE_URL = "http://api-atp.wittrock.us/rest/1.0/";
+const BASE_URL = __DEVELOPMENT__
+    ? "http://api.runes.com/rest/1.0/"
+    : "http://api-atp.wittrock.us/rest/1.0/";
 
 const restCall = options =>
     new Promise((resolve, reject) => {
@@ -72,7 +74,7 @@ class Rest {
     }
 
     thunk() {
-        return (dispatch, getState) => {
+        return (dispatch, getState) => new Promise((resolve, reject) => {
             this.startHandler(this.data, dispatch, getState);
             restCall({
                 endPoint: this.endPoint,
@@ -81,11 +83,16 @@ class Rest {
                 dispatch,
                 loginToken: getState().uac.loginToken
             })
-                .then(data => this.successHandler(data, dispatch))
-                .catch(error => this.errorHandler(error, dispatch));
-        }
+                .then(data => {
+                    this.successHandler(data, dispatch);
+                    resolve(data, dispatch);
+                })
+                .catch(error => {
+                    this.errorHandler(error, dispatch);
+                    reject(error, dispatch);
+                });
+        });
     }
-
 }
 
 export default () => new Rest();
