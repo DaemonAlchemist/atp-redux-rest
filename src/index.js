@@ -12,6 +12,8 @@ const BASE_URL = __DEVELOPMENT__
     ? "http://api.runes.com/rest/1.0/"
     : "http://api-atp.wittrock.us/rest/1.0/";
 
+const restUrl = url => BASE_URL + url;
+
 const restCall = options =>
     new Promise((resolve, reject) => {
         return o(options.method).switch({
@@ -96,4 +98,4 @@ class Rest {
 }
 
 export default () => new Rest();
-export {restCall};
+export {restCall, restUrl};
