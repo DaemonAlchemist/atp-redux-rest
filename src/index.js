@@ -5,12 +5,11 @@
 import request from "superagent";
 import Promise from "promise";
 import {o} from "atp-sugar";
+import config from "atp-config";
 
 import {addMessages} from "atp-flash";
 
-const BASE_URL = __DEVELOPMENT__
-    ? "http://api.runes.com/rest/1.0/"
-    : "http://api-atp.wittrock.us/rest/1.0/";
+const BASE_URL = config.get('rest.baseUrl');
 
 const restUrl = url => BASE_URL + url;
 
