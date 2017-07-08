@@ -9,32 +9,35 @@ import config from "atp-config";
 
 import {addMessages} from "atp-flash";
 
-const BASE_URL = config.get('rest.baseUrl');
+const baseUrls = config.get('rest.baseUrl');
 
-const restUrl = url => BASE_URL + url;
+const restUrl = (url, location = "default") => baseUrls[location] + url;
 
 const restCall = options =>
-    new Promise((resolve, reject) => {
-        return o(options.method).switch({
-            get: () => request.get(BASE_URL + options.endPoint).query(options.data),
-            post: () => request.post(BASE_URL + options.endPoint).send(options.data),
-            put: () => request.put(BASE_URL + options.endPoint).send(options.data),
-            delete: () => request.delete(BASE_URL + options.endPoint),
-        })
-            .set('loginToken', options.loginToken)
-            .end((err, response) => {
-                if(options.dispatch && response.body.messages) {
-                    options.dispatch(addMessages(response.body.messages));
-                }
-                return err || !response.ok
-                    ? reject(err, response)
-                    : resolve(response.body)
+    new Promise((resolve, reject) =>
+        o(restUrl(options.endPoint, options.module)).as(url =>
+            o(options.method).switch({
+                get: () => request.get(url).query(options.data),
+                post: () => request.post(url).send(options.data),
+                put: () => request.put(url).send(options.data),
+                delete: () => request.delete(url),
             })
-    });
+        )
+        .set('loginToken', options.loginToken)
+        .end((err, response) => {
+            if(options.dispatch && response.body.messages) {
+                options.dispatch(addMessages(response.body.messages));
+            }
+            return err || !response.ok
+                ? reject([err, response])
+                : resolve([response.body, response]);
+        })
+    );
 
 class Rest {
     constructor() {
         this.startHandler = () => {};
+        this.curModule = "default";
         this.successHandler = null;
         this.errorHandler = null;
         this.method = null;
@@ -74,23 +77,29 @@ class Rest {
         return this;
     }
 
+    module(m) {
+        this.curModule = typeof baseUrls[m] ? m : "default";
+        return this;
+    }
+
     thunk() {
         return (dispatch, getState) => new Promise((resolve, reject) => {
             this.startHandler(this.data, dispatch, getState);
             restCall({
                 endPoint: this.endPoint,
+                module: this.curModule,
                 method: this.method,
                 data: this.data,
                 dispatch,
                 loginToken: getState().uac.loginToken
             })
-                .then(data => {
-                    this.successHandler(data, dispatch);
-                    resolve(data, dispatch);
+                .then(([data, response]) => {
+                    this.successHandler([data, dispatch, response]);
+                    resolve([data, dispatch, response]);
                 })
-                .catch(error => {
-                    this.errorHandler(error, dispatch);
-                    reject(error, dispatch);
+                .catch(([error, response]) => {
+                    this.errorHandler([error, dispatch]);
+                    reject([error, dispatch]);
                 });
         });
     }
