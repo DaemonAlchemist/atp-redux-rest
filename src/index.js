@@ -95,11 +95,11 @@ class Rest {
             })
                 .then(([data, response]) => {
                     this.successHandler([data, dispatch, response]);
-                    resolve([data, dispatch, response]);
+                    resolve([data, dispatch, getState, response]);
                 })
                 .catch(([error, response]) => {
                     this.errorHandler([error, dispatch]);
-                    reject([error, dispatch]);
+                    reject([error, dispatch, getState]);
                 });
         });
     }
