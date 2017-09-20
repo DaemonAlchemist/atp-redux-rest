@@ -9,9 +9,7 @@ import config from "atp-config";
 
 import {addMessages} from "atp-flash";
 
-const baseUrls = config.get('rest.baseUrl');
-
-const restUrl = (url, location = "default") => baseUrls[location] + url;
+const restUrl = (url, location = "default") => config.get('rest.baseUrl')[location] + url;
 
 const restCall = options =>
     new Promise((resolve, reject) =>
@@ -78,7 +76,7 @@ class Rest {
     }
 
     module(m) {
-        this.curModule = typeof baseUrls[m] ? m : "default";
+        this.curModule = typeof config.get('rest.baseUrl')[m] !== 'undefined' ? m : "default";
         return this;
     }
 
