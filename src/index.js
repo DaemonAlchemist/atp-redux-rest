@@ -21,7 +21,7 @@ const restCall = options =>
                 delete: () => request.delete(url),
             })
         )
-        .set('loginToken', options.loginToken)
+        .set('Login-Token', options.loginToken)
         .end((err, response) => {
             if(options.dispatch && response.body.messages) {
                 options.dispatch(addMessages(response.body.messages));
