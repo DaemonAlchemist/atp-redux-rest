@@ -92,7 +92,7 @@ class Rest {
                 loginToken: getState().uac.loginToken
             })
                 .then(([data, response]) => {
-                    this.successHandler([data, dispatch, response]);
+                    this.successHandler([data, dispatch, getState, response]);
                     resolve([data, dispatch, getState, response]);
                 })
                 .catch(([error, response]) => {
