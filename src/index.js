@@ -15,9 +15,10 @@ const restCall = options =>
     new Promise((resolve, reject) =>
         o(restUrl(options.endPoint, options.module)).as(url =>
             o(options.method).switch({
-                get: () => request.get(url).query(options.data),
-                post: () => request.post(url).send(options.data),
-                put: () => request.put(url).send(options.data),
+                get:    () => request.get(   url).query(options.data),
+                post:   () => request.post(  url).send( options.data),
+                put:    () => request.put(   url).send( options.data),
+                patch:  () => request.patch( url).send( options.data),
                 delete: () => request.delete(url),
             })
         )
@@ -45,10 +46,16 @@ class Rest {
         this.then();
     }
 
-    get(endPoint)   {this.method = 'get';    this.endPoint = endPoint; return this;}
-    post(endPoint)  {this.method = 'post';   this.endPoint = endPoint; return this;}
-    put(endPoint)   {this.method = 'put';    this.endPoint = endPoint; return this;}
-    delete(endPoint){this.method = 'delete'; this.endPoint = endPoint; return this;}
+    get(endPoint)   {return this._call(endPoint, 'get'   );}
+    post(endPoint)  {return this._call(endPoint, 'post'  );}
+    put(endPoint)   {return this._call(endPoint, 'put'   );}
+    patch(endPoint) {return this._call(endPoint, 'patch' );}
+    delete(endPoint){return this._call(endPoint, 'delete');}
+    _call(endPoint, method)   {
+        this.method = method;
+        this.endPoint = endPoint;
+        return this;
+    }
 
     start(handler) {
         this.startHandler = handler;
