@@ -1,15 +1,40 @@
 {
-  "name": "atp-rest",
-  "version": "1.0.0",
-  "description": "A REST api module",
-  "main": "src/index.js",
+  "name": "atp-rest-client",
+  "version": "0.0.0",
+  "description": "A REST client module",
+  "main": "lib/index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "npm run compile && mocha --compilers js:babel-core/register",
+    "test-quick": "mocha --compilers js:babel-core/register",
+    "test-clean": "npm install && npm test && rm -rf node_modules",
+    "compile": "babel -d lib/ src/",
+    "prepublish": "npm run compile",
+    "new-tag": "git push && git push origin --tags && npm publish",
+    "major": "npm version major && npm run new-tag",
+    "minor": "npm version minor && npm run new-tag",
+    "patch": "npm version patch && npm run new-tag",
+    "major-clean": "npm install && npm run major && rm -rf node_modules",
+    "minor-clean": "npm install && npm run minor && rm -rf node_modules",
+    "patch-clean": "npm install && npm run patch && rm -rf node_modules"
   },
   "repository": {
     "type": "git",
-    "url": "git.repo"
+    "url": "https://github.com/DaemonAlchemist/atp-redux-rest.git"
   },
   "author": "Andrew Wittrock",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "chai": "^4.1.2",
+    "mocha": "^3.5.0"
+  },
+  "dependencies": {
+    "atp-config": "^0.3.1",
+    "atp-sugar": "^0.4.2",
+    "promise": "^8.0.1",
+    "superagent": "^3.7.0"
+  }
 }
