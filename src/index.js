@@ -24,6 +24,9 @@ const restCall = options =>
         )
         .set('Login-Token', options.loginToken)
         .end((err, response) => {
+            if(typeof response === 'undefined') {
+                return reject(["No response"]);
+            }
             if(options.dispatch && response.body.messages) {
                 options.dispatch(addMessages(response.body.messages));
             }
