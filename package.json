@@ -35,11 +35,11 @@
     "mocha": "^4.0.1"
   },
   "dependencies": {
-    "atp-config": "^0.3.2",
-    "atp-flash": "^0.1.1",
-    "atp-sugar": "^0.8.1",
-    "dependency-check": "^2.9.1",
+    "atp-config": "^0.3.3",
+    "atp-flash": "^0.2.1",
+    "atp-sugar": "^0.8.3",
+    "dependency-check": "^2.9.2",
     "promise": "^8.0.1",
-    "superagent": "^3.8.0"
+    "superagent": "^3.8.2"
   }
 }

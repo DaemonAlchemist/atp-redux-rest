@@ -1,6 +1,3 @@
-/**
- * Created by Andy on 3/24/2017.
- */
 
 import request from "superagent";
 import Promise from "promise";
