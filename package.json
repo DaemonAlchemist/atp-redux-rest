@@ -32,13 +32,13 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-2": "^6.24.1",
     "chai": "^4.1.2",
-    "mocha": "^4.0.1"
+    "mocha": "^5.0.0"
   },
   "dependencies": {
-    "atp-config": "^0.3.3",
-    "atp-flash": "^0.2.1",
-    "atp-sugar": "^0.8.3",
-    "dependency-check": "^2.9.2",
+    "atp-config": "^0.3.5",
+    "atp-flash": "^0.2.2",
+    "atp-sugar": "^0.8.4",
+    "dependency-check": "^3.0.0",
     "promise": "^8.0.1",
     "superagent": "^3.8.2"
   }
