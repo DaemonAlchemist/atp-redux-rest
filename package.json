@@ -24,7 +24,7 @@
     "type": "git",
     "url": "https://github.com/DaemonAlchemist/atp-redux-rest.git"
   },
-  "author": "Andrew Wittrock",
+  "author": "DaemonAlchemist",
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.26.0",
